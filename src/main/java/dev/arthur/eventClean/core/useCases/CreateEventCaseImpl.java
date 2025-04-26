@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 public class CreateEventCaseImpl implements CreateEventCase {
 
-    @Override
+
     public Event execute(Event event) {
         return new Event(event.name(),
                 event.description(),

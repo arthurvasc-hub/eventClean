@@ -4,11 +4,14 @@ import dev.arthur.eventClean.core.enums.EventType;
 
 import java.time.LocalDate;
 
-public record Event( String name,
+public record Event(
+                    Long id,
+                    String name,
                     String description,
                     LocalDate startOfTheEvent,
                     LocalDate endOfEvent,
                     String identifier,
+                    Integer capacity,
                     String local,
                     String organizer,
                     EventType eventType )
