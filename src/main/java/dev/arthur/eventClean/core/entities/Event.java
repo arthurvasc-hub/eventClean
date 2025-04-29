@@ -12,7 +12,7 @@ public record Event(
                     LocalDate endOfEvent,
                     String identifier,
                     Integer capacity,
-                    String local,
+                    String eventLocation,
                     String organizer,
                     EventType eventType )
 { }

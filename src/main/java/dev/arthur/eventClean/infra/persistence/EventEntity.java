@@ -25,7 +25,7 @@ public class EventEntity {
     private LocalDate endOfEvent;
     private String identifier;
     private Integer capacity;
-    private String local;
+    private String eventLocation;
     private String organizer;
     @Enumerated(EnumType.STRING)
     private EventType eventType;

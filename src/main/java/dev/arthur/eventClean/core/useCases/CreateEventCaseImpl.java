@@ -9,12 +9,14 @@ public class CreateEventCaseImpl implements CreateEventCase {
 
 
     public Event execute(Event event) {
-        return new Event(event.name(),
+        return new Event(event.id(),
+                event.name(),
                 event.description(),
                 event.startOfTheEvent(),
                 event.endOfEvent(),
                 event.identifier(),
-                event.local(),
+                event.capacity(),
+                event.eventLocation(),
                 event.organizer(),
                 event.eventType());
     }
