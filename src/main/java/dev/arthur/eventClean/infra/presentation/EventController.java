@@ -2,6 +2,7 @@ package dev.arthur.eventClean.infra.presentation;
 
 import dev.arthur.eventClean.core.entities.Event;
 import dev.arthur.eventClean.core.useCases.CreateEventCase;
+import dev.arthur.eventClean.infra.gateway.EventRepositoryGateway;
 import dev.arthur.eventClean.infra.mapper.EventRequestMapper;
 import dev.arthur.eventClean.infra.mapper.EventResponseMapper;
 import dev.arthur.eventClean.infra.request.EventRequest;
@@ -22,12 +23,14 @@ public class EventController {
     private CreateEventCase createEventCase;
     private final EventRequestMapper eventRequestMapper;
     private final EventResponseMapper eventResponseMapper;
+    private final EventRepositoryGateway repositoryGateway;
 
 
 
     @PostMapping
     public ResponseEntity<EventResponse> createEvent(@RequestBody EventRequest eventRequest){
         Event event = createEventCase.execute(eventRequestMapper.fromRequestToDomain(eventRequest));
+        repositoryGateway.saveDomain(event);
         EventResponse response = eventResponseMapper.domainToResponse(event);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

@@ -2,10 +2,7 @@ package dev.arthur.eventClean.infra.persistence;
 
 import dev.arthur.eventClean.core.enums.EventType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -14,7 +11,8 @@ import java.time.LocalDate;
 @Table(name = "Events")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 public class EventEntity {
 
     @Id
