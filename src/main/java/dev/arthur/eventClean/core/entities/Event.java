@@ -1,12 +1,9 @@
 package dev.arthur.eventClean.core.entities;
 
 import dev.arthur.eventClean.core.enums.EventType;
-import lombok.Builder;
-
 import java.time.LocalDate;
 
-@Builder
-public record Event(
+public record Event (
                     Long id,
                     String name,
                     String description,
