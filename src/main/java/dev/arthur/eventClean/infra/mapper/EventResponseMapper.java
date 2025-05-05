@@ -13,6 +13,7 @@ public class EventResponseMapper {
         if (entity == null) return null;
 
         return EventResponse.builder()
+                .id(entity.id())
                 .name(entity.name())
                 .startOfTheEvent(entity.startOfTheEvent())
                 .endOfTheEvent(entity.endOfEvent())

@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 @Builder
 public record EventResponse (
+        Long id,
         String name,
         LocalDate startOfTheEvent,
         LocalDate endOfTheEvent,
