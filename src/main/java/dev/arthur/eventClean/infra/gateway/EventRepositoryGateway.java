@@ -8,6 +8,9 @@ import dev.arthur.eventClean.infra.persistence.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
+
 @Component
 @RequiredArgsConstructor
 public class EventRepositoryGateway implements EventGateway {
@@ -21,5 +24,13 @@ public class EventRepositoryGateway implements EventGateway {
     public Event saveDomain(Event event) {
         EventEntity save = eventRepository.save(eventEntityMapper.domainToEntity(event));
         return eventEntityMapper.entityToDomain(save);
+    }
+
+    @Override
+    public List<Event> searchEvents() {
+        List<EventEntity> events = eventRepository.findAll();
+        return events.stream()
+                .map(eventEntityMapper::entityToDomain)
+                .toList();
     }
 }

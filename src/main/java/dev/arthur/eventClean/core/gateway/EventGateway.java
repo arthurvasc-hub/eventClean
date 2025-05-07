@@ -2,7 +2,11 @@ package dev.arthur.eventClean.core.gateway;
 
 import dev.arthur.eventClean.core.entities.Event;
 
+import java.util.List;
+
 public interface EventGateway {
 
     public Event saveDomain (Event event);
+
+    public List<Event> searchEvents();
 }
