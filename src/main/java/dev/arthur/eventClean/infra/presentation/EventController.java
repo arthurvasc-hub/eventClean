@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -32,10 +34,13 @@ public class EventController {
     }
 
     @PostMapping("/event")
-    public ResponseEntity<EventResponse> createEvent(@RequestBody EventRequest eventRequest){
+    public ResponseEntity<Map<String, Object>> createEvent(@RequestBody EventRequest eventRequest){
+        Map<String, Object> messages = new HashMap<>();
         Event event = createEventCase.execute(eventRequestMapper.fromRequestToDomain(eventRequest));
         EventResponse response = eventResponseMapper.domainToResponse(event);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        messages.put("Message: ", "Your event was successfully created!");
+        messages.put("Info: ", response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(messages);
     }
 
     @GetMapping("/event")
