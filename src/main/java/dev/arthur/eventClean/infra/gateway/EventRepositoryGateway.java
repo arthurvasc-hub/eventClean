@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -31,6 +32,6 @@ public class EventRepositoryGateway implements EventGateway {
         List<EventEntity> events = eventRepository.findAll();
         return events.stream()
                 .map(eventEntityMapper::entityToDomain)
-                .toList();
+                .collect(Collectors.toList());
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/v1")
@@ -42,7 +43,7 @@ public class EventController {
         List<Event> events = searchEventCase.execute();
         List<EventResponse> eventResponses = events.stream()
                 .map(eventResponseMapper::domainToResponse)
-                .toList();
+                .collect(Collectors.toList());
         return ResponseEntity.ok().body(eventResponses);
     }
 
