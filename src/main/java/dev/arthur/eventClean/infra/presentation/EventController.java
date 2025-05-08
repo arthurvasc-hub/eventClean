@@ -2,6 +2,7 @@ package dev.arthur.eventClean.infra.presentation;
 
 import dev.arthur.eventClean.core.entities.Event;
 import dev.arthur.eventClean.core.useCases.CreateEventCase;
+import dev.arthur.eventClean.core.useCases.SearchByIdentifierCase;
 import dev.arthur.eventClean.core.useCases.SearchEventCase;
 import dev.arthur.eventClean.infra.exceptions.InvalidIdentifierException;
 import dev.arthur.eventClean.infra.mapper.EventRequestMapper;
@@ -25,42 +26,40 @@ public class EventController {
 
 private final CreateEventCase createEventCase;
 private final SearchEventCase searchEventCase;
+private final SearchByIdentifierCase searchByIdentifierCase;
 private final EventRequestMapper eventRequestMapper;
 private final EventResponseMapper eventResponseMapper;
-private final EventRepository eventRepository;
 
-
-public EventController(CreateEventCase createEventCase, SearchEventCase searchEventCase, EventRequestMapper eventRequestMapper, EventResponseMapper eventResponseMapper, EventRepository eventRepository) {
+public EventController(CreateEventCase createEventCase, SearchEventCase searchEventCase, SearchByIdentifierCase searchByIdentifierCase, EventRequestMapper eventRequestMapper, EventResponseMapper eventResponseMapper) {
     this.createEventCase = createEventCase;
     this.searchEventCase = searchEventCase;
+    this.searchByIdentifierCase = searchByIdentifierCase;
     this.eventRequestMapper = eventRequestMapper;
     this.eventResponseMapper = eventResponseMapper;
-    this.eventRepository = eventRepository;
 }
 
-
 @PostMapping("/event")
-public ResponseEntity<Map<String, Object>> createEvent(@RequestBody EventRequest eventRequest) throws InvalidIdentifierException {
+public ResponseEntity<Map<String, Object>> createEvent(@RequestBody EventRequest eventRequest) {
     Map<String, Object> messages = new HashMap<>();
-    Optional<Event> eventByIdentifier = eventRepository.findEventByIdentifier(eventRequest.identifier());
+    Optional<Event> eventByIdentifier = searchByIdentifierCase.execute(eventRequest.identifier());
+
     if (eventByIdentifier.isPresent()) {
-        throw new InvalidIdentifierException("An event with this identifier already exists.");
-    }
+    throw new InvalidIdentifierException("An event with this identifier already exists.");
+        }
+
     Event event = createEventCase.execute(eventRequestMapper.fromRequestToDomain(eventRequest));
     EventResponse response = eventResponseMapper.domainToResponse(event);
         messages.put("Message: ", "Your event was successfully created!");
         messages.put("Info: ", response);
     return ResponseEntity.status(HttpStatus.CREATED).body(messages);
-
-
 }
 
 @GetMapping("/event")
 public ResponseEntity<List<EventResponse>> searchEvent(){
     List<Event> events = searchEventCase.execute();
     List<EventResponse> eventResponses = events.stream()
-            .map(eventResponseMapper::domainToResponse)
-            .collect(Collectors.toList());
+        .map(eventResponseMapper::domainToResponse)
+        .collect(Collectors.toList());
     return ResponseEntity.ok().body(eventResponses);
 }
 
