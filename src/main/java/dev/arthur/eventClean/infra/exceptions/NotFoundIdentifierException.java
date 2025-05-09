@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class InvalidIdentifierException extends RuntimeException {
+public class NotFoundIdentifierException extends RuntimeException {
 
-    public InvalidIdentifierException(String message) {
+    public NotFoundIdentifierException(String message) {
         super(message);
     }
 }

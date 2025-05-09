@@ -4,10 +4,9 @@ import dev.arthur.eventClean.core.entities.Event;
 import dev.arthur.eventClean.core.useCases.CreateEventCase;
 import dev.arthur.eventClean.core.useCases.SearchByIdentifierCase;
 import dev.arthur.eventClean.core.useCases.SearchEventCase;
-import dev.arthur.eventClean.infra.exceptions.InvalidIdentifierException;
+import dev.arthur.eventClean.infra.exceptions.NotFoundIdentifierException;
 import dev.arthur.eventClean.infra.mapper.EventRequestMapper;
 import dev.arthur.eventClean.infra.mapper.EventResponseMapper;
-import dev.arthur.eventClean.infra.persistence.EventRepository;
 import dev.arthur.eventClean.infra.request.EventRequest;
 import dev.arthur.eventClean.infra.response.EventResponse;
 import org.springframework.http.HttpStatus;
@@ -45,7 +44,7 @@ public ResponseEntity<Map<String, Object>> createEvent(@RequestBody EventRequest
     Optional<Event> eventByIdentifier = searchByIdentifierCase.execute(eventRequest.identifier());
 
     if (eventByIdentifier.isPresent()) {
-    throw new InvalidIdentifierException("An event with this identifier already exists.");
+    throw new NotFoundIdentifierException("An event with this identifier already exists.");
         }
 
     Event event = createEventCase.execute(eventRequestMapper.fromRequestToDomain(eventRequest));
