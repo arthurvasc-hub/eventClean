@@ -13,6 +13,7 @@ import dev.arthur.eventClean.infra.response.EventResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -63,5 +64,20 @@ public ResponseEntity<List<EventResponse>> searchEvent(){
     return ResponseEntity.ok().body(eventResponses);
 }
 
+
+@GetMapping("/event/{identifier}")
+public ResponseEntity<EventResponse> searchByIdentifier(@PathVariable String identifier){
+    Optional<Event> eventFound = searchByIdentifierCase.execute(identifier);
+
+    if(eventFound.isEmpty()) {
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no event in our DB with the identifier: " + identifier);
+
+    }
+
+    EventResponse eventResponse = eventResponseMapper.domainToResponse(eventFound.get());
+
+    return ResponseEntity.ok(eventResponse);
+
+}
 
 }
