@@ -34,7 +34,7 @@ src/
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/seu-usuario/eventclean.git
+   git clone https://github.com/arthurvasc-hub/eventclean.git
    cd eventclean
 2. Configure o application.properties com as credenciais do seu banco de dados.
 
