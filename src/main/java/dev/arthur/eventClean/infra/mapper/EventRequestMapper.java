@@ -15,7 +15,6 @@ public class EventRequestMapper {
                 .description(event.description())
                 .startOfTheEvent(event.startOfTheEvent())
                 .endOfEvent(event.endOfEvent())
-                .identifier(event.identifier())
                 .capacity(event.capacity())
                 .eventLocation(event.eventLocation())
                 .organizer(event.organizer())
@@ -34,7 +33,7 @@ public class EventRequestMapper {
                 request.description(),
                 request.startOfTheEvent(),
                 request.endOfEvent(),
-                request.identifier(),
+                null,
                 request.capacity(),
                 request.eventLocation(),
                 request.organizer(),

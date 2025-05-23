@@ -22,4 +22,9 @@ public class BeanConfiguration {
     public SearchByIdentifierCase searchByIdentifierCase(EventGateway eventGateway){
         return new SearchByIdentifierCaseImpl(eventGateway);
     }
+
+    @Bean
+    public IdentifierGeneratorCase identifierGeneratorCase(EventGateway eventGateway){
+        return new IdentifierGeneratorImpl(eventGateway);
+    }
 }

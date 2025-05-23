@@ -1,4 +1,6 @@
 package dev.arthur.eventClean.infra.gateway;
+import org.apache.commons.lang3.RandomStringUtils;
+
 
 import dev.arthur.eventClean.core.entities.Event;
 import dev.arthur.eventClean.core.gateway.EventGateway;
@@ -24,9 +26,26 @@ public class EventRepositoryGateway implements EventGateway {
 
     @Override
     public Event saveDomain(Event event) {
+        String newIdentifier = generateIdentifier();
+
+        if (event.identifier() == null || event.identifier().isBlank()) {
+            event = new Event(
+                    event.id(),
+                    event.name(),
+                    event.description(),
+                    event.startOfTheEvent(),
+                    event.endOfEvent(),
+                    newIdentifier,
+                    event.capacity(),
+                    event.eventLocation(),
+                    event.organizer(),
+                    event.eventType());
+        }
+
         EventEntity save = eventRepository.save(eventEntityMapper.domainToEntity(event));
         return eventEntityMapper.entityToDomain(save);
     }
+
 
     @Override
     public List<Event> searchEvents() {
@@ -40,6 +59,15 @@ public class EventRepositoryGateway implements EventGateway {
     public Optional<Event> findEventByIdentifier(String identifier) {
         return eventRepository.findEventByIdentifier(identifier);
 
+    }
+
+    @Override
+    public String generateIdentifier() {
+        String letters = RandomStringUtils.random(3, true, false); // Só letras
+        String numbers = RandomStringUtils.random(3, false, true); // Só números
+
+
+        return letters + numbers;
     }
 
 

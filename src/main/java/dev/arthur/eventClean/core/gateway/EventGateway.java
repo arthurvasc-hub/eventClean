@@ -12,4 +12,6 @@ public interface EventGateway {
     public List<Event> searchEvents();
 
     public Optional<Event> findEventByIdentifier(String identifier);
+
+    public String generateIdentifier();
 }
